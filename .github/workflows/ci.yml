@@ -9,6 +9,8 @@ env:
 
 jobs:
   build:
+    strategy:
+      fail-fast: true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -22,6 +24,8 @@ jobs:
       - uses: forge build --sizes
 
   test:
+    strategy:
+      fail-fast: true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
