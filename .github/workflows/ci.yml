@@ -8,21 +8,6 @@ env:
   FOUNDRY_PROFILE: ci
 
 jobs:
-  build:
-    strategy:
-      fail-fast: true
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: recursive
-      
-      - uses: foundry-rs/foundry-toolchain@v1
-        with:
-          version: nightly
-      
-      - uses: forge build --sizes
-
   test:
     strategy:
       fail-fast: true
@@ -32,9 +17,18 @@ jobs:
         with:
           submodules: recursive
 
-      - uses: foundry-rs/foundry-toolchain@v1
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
         with:
           version: nightly
 
-      - run: forge test -vvv
+      - name: Run Forge build
+        run: |
+          forge --version
+          forge build --sizes
+        id: build
+
+      - name: Run Forge test
+        run: |
+          forge test -vvv
         id: test
